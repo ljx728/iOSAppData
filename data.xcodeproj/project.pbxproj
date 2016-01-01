@@ -26,6 +26,7 @@
 		0CA591301C2743C3008D97A3 /* DataTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0CA5912E1C2743C3008D97A3 /* DataTableViewCell.xib */; };
 		0CA591331C274B17008D97A3 /* ColorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA591321C274B16008D97A3 /* ColorManager.m */; };
 		0CA591441C34F672008D97A3 /* RouteDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA591431C34F672008D97A3 /* RouteDetailView.m */; };
+		0CA591491C361117008D97A3 /* PolylineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CA591481C361117008D97A3 /* PolylineManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,8 @@
 		0CA5913F1C34C62E008D97A3 /* BaseTouchesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTouchesDelegate.h; sourceTree = "<group>"; };
 		0CA591421C34F672008D97A3 /* RouteDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RouteDetailView.h; sourceTree = "<group>"; };
 		0CA591431C34F672008D97A3 /* RouteDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouteDetailView.m; sourceTree = "<group>"; };
+		0CA591471C361117008D97A3 /* PolylineManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolylineManager.h; sourceTree = "<group>"; };
+		0CA591481C361117008D97A3 /* PolylineManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolylineManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +183,8 @@
 				0CA591061C20E84B008D97A3 /* JSONFileManager.m */,
 				0CA591311C274B16008D97A3 /* ColorManager.h */,
 				0CA591321C274B16008D97A3 /* ColorManager.m */,
+				0CA591471C361117008D97A3 /* PolylineManager.h */,
+				0CA591481C361117008D97A3 /* PolylineManager.m */,
 			);
 			name = Helper;
 			sourceTree = "<group>";
@@ -188,21 +193,8 @@
 			isa = PBXGroup;
 			children = (
 				0CA590CB1C1EFE47008D97A3 /* Main.storyboard */,
-				0CA590F51C1F204E008D97A3 /* MainViewController.h */,
-				0CA590F61C1F204E008D97A3 /* MainViewController.m */,
-				0CA591251C25FB77008D97A3 /* DetailViewController.h */,
-				0CA591261C25FB77008D97A3 /* DetailViewController.m */,
-				0CA590F81C1F45A9008D97A3 /* ThumbView.h */,
-				0CA590F91C1F45A9008D97A3 /* ThumbView.m */,
-				0CA5912C1C2743C3008D97A3 /* DataTableViewCell.h */,
-				0CA5912D1C2743C3008D97A3 /* DataTableViewCell.m */,
-				0CA5912E1C2743C3008D97A3 /* DataTableViewCell.xib */,
-				0CA5913F1C34C62E008D97A3 /* BaseTouchesDelegate.h */,
-				0CA5911E1C21B11B008D97A3 /* RouteView.h */,
-				0CA5911F1C21B11B008D97A3 /* RouteView.m */,
-				0CA591211C21B2C1008D97A3 /* RouteView.xib */,
-				0CA591421C34F672008D97A3 /* RouteDetailView.h */,
-				0CA591431C34F672008D97A3 /* RouteDetailView.m */,
+				0CA591451C361074008D97A3 /* MainUI */,
+				0CA591461C36109D008D97A3 /* DetailUI */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -213,6 +205,35 @@
 				0CA5910B1C20ED73008D97A3 /* data.json */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		0CA591451C361074008D97A3 /* MainUI */ = {
+			isa = PBXGroup;
+			children = (
+				0CA590F51C1F204E008D97A3 /* MainViewController.h */,
+				0CA590F61C1F204E008D97A3 /* MainViewController.m */,
+				0CA590F81C1F45A9008D97A3 /* ThumbView.h */,
+				0CA590F91C1F45A9008D97A3 /* ThumbView.m */,
+				0CA5912C1C2743C3008D97A3 /* DataTableViewCell.h */,
+				0CA5912D1C2743C3008D97A3 /* DataTableViewCell.m */,
+				0CA5912E1C2743C3008D97A3 /* DataTableViewCell.xib */,
+			);
+			name = MainUI;
+			sourceTree = "<group>";
+		};
+		0CA591461C36109D008D97A3 /* DetailUI */ = {
+			isa = PBXGroup;
+			children = (
+				0CA591251C25FB77008D97A3 /* DetailViewController.h */,
+				0CA591261C25FB77008D97A3 /* DetailViewController.m */,
+				0CA5913F1C34C62E008D97A3 /* BaseTouchesDelegate.h */,
+				0CA5911E1C21B11B008D97A3 /* RouteView.h */,
+				0CA5911F1C21B11B008D97A3 /* RouteView.m */,
+				0CA591211C21B2C1008D97A3 /* RouteView.xib */,
+				0CA591421C34F672008D97A3 /* RouteDetailView.h */,
+				0CA591431C34F672008D97A3 /* RouteDetailView.m */,
+			);
+			name = DetailUI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,6 +376,7 @@
 				0CA590FA1C1F45A9008D97A3 /* ThumbView.m in Sources */,
 				0CA590C41C1EFE47008D97A3 /* main.m in Sources */,
 				0CA591271C25FB77008D97A3 /* DetailViewController.m in Sources */,
+				0CA591491C361117008D97A3 /* PolylineManager.m in Sources */,
 				0CA591441C34F672008D97A3 /* RouteDetailView.m in Sources */,
 				0CA591331C274B17008D97A3 /* ColorManager.m in Sources */,
 				0CA590F71C1F204E008D97A3 /* MainViewController.m in Sources */,
@@ -584,6 +606,7 @@
 				0CA590EE1C1EFE48008D97A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0CA590EF1C1EFE48008D97A3 /* Build configuration list for PBXNativeTarget "dataTests" */ = {
 			isa = XCConfigurationList;
@@ -592,6 +615,7 @@
 				0CA590F11C1EFE48008D97A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0CA590F21C1EFE48008D97A3 /* Build configuration list for PBXNativeTarget "dataUITests" */ = {
 			isa = XCConfigurationList;
@@ -600,6 +624,7 @@
 				0CA590F41C1EFE48008D97A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

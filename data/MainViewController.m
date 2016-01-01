@@ -105,7 +105,7 @@
     [UIView commitAnimations];
     
     // Start transition animation after delay.
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC));
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void) {
         CATransition *animation = [CATransition animation];
         [animation setDuration:0.5];

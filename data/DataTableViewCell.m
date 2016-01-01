@@ -24,12 +24,6 @@
     [super awakeFromNib];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
-}
-
 - (void)setCellContent:(NSDictionary *)routeDic {
     // Set type label.
     NSString *type = [routeDic objectForKey:@"type"];
@@ -86,9 +80,9 @@
     NSString *startTimeStringShort = [dateFormatter stringFromDate:startTime];
     NSString *endTimeStringShort = [dateFormatter stringFromDate:endTime];
     if (hour > 0) {
-        _timeLabel.text = [NSString stringWithFormat:@"%@ - %@    Duration: %dH %dm", startTimeStringShort, endTimeStringShort, hour, minute];
+        _timeLabel.text = [NSString stringWithFormat:@"%@ - %@    Duration: %dH %dmin", startTimeStringShort, endTimeStringShort, hour, minute];
     } else {
-        _timeLabel.text = [NSString stringWithFormat:@"%@ - %@    Duration: %dm", startTimeStringShort, endTimeStringShort, minute];
+        _timeLabel.text = [NSString stringWithFormat:@"%@ - %@    Duration: %dmin", startTimeStringShort, endTimeStringShort, minute];
     }
     
     

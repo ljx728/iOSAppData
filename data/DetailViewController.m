@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "RouteView.h"
+#import "PolylineManager.h"
 #import "ColorManager.h"
 
 @interface DetailViewController ()
@@ -111,15 +112,25 @@
     
     NSMutableArray *locationArray = [[NSMutableArray alloc] init];
     for (NSDictionary *segmentDic in segmentArray) {
-        NSMutableArray *subLocationArray = [[NSMutableArray alloc] init];
-        NSArray *stopArray = [segmentDic objectForKey:@"stops"];
-        for (NSDictionary *stopDic in stopArray) {
-            CLLocationDegrees latitude = [[stopDic objectForKey:@"lat"] doubleValue];
-            CLLocationDegrees longitude = [[stopDic objectForKey:@"lng"] doubleValue];
-            CLLocation *locationCoordinate = [[CLLocation alloc]initWithLatitude:latitude longitude:longitude];
-            [subLocationArray addObject:locationCoordinate];
+        // If polyline exists, then extract latitude and longitude from encoded polyline.
+        NSString *encodedPolyline = [segmentDic objectForKey:@"polyline"];
+        if (encodedPolyline != nil && ![encodedPolyline isKindOfClass:[NSNull class]]) {
+            NSArray *subLocationArray = [PolylineManager decodePolyLine:encodedPolyline];
+            [locationArray addObject:subLocationArray];
         }
-        [locationArray addObject:[subLocationArray copy]];
+        
+        // If polyline is null, then extract latitude and longitude from stops.
+        else {
+            NSMutableArray *subLocationArray = [[NSMutableArray alloc] init];
+            NSArray *stopArray = [segmentDic objectForKey:@"stops"];
+            for (NSDictionary *stopDic in stopArray) {
+                CLLocationDegrees latitude = [[stopDic objectForKey:@"lat"] doubleValue];
+                CLLocationDegrees longitude = [[stopDic objectForKey:@"lng"] doubleValue];
+                CLLocation *locationCoordinate = [[CLLocation alloc]initWithLatitude:latitude longitude:longitude];
+                [subLocationArray addObject:locationCoordinate];
+            }
+            [locationArray addObject:[subLocationArray copy]];
+        }
     }
     
     return [locationArray copy];

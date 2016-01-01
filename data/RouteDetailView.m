@@ -11,10 +11,16 @@
 
 @implementation RouteDetailView
 
-- (void)setRouteDetailContent:(NSDictionary *)routeDic {
+/*
+ Set route details into view and return the content height of this view.
+ */
+- (NSInteger)setRouteDetailContent:(NSDictionary *)routeDic {
     [self setBackgroundColor:[UIColor whiteColor]];
     NSArray *segmentArray = [routeDic objectForKey:@"segments"];
     
+    NSInteger position = 20;
+    BOOL showCurrentPosition = YES;
+    BOOL showNextPosition = YES;
     for (NSInteger i = 0; i < [segmentArray count]; ++i) {
         NSDictionary *segmentDic = [segmentArray objectAtIndex:i];
         NSString *travelMode = [segmentDic objectForKey:@"travel_mode"];
@@ -39,10 +45,18 @@
             NSString *startTimeStringShort = [dateFormatter stringFromDate:startTime];
             NSString *endTimeStringShort = [dateFormatter stringFromDate:endTime];
             
+            // Position increamental.
+            NSInteger deltaPosition;
+            if ([travelMode isEqualToString:@"setup"] || [travelMode isEqualToString:@"parking"]) {
+                deltaPosition = 60;
+            } else {
+                deltaPosition = 100;
+            }
+            
             // Code block - Start
-            {
+            if (showCurrentPosition && ![travelMode isEqualToString:@"parking"]) {
                 // Set start time label.
-                UILabel *startTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, i * 100 + 20, 50, 40)];
+                UILabel *startTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, position, 50, 40)];
                 [startTimeLabel setBackgroundColor:[UIColor whiteColor]];
                 startTimeLabel.textAlignment = NSTextAlignmentCenter;
                 startTimeLabel.textColor = [UIColor blackColor];
@@ -51,7 +65,7 @@
                 [self addSubview:startTimeLabel];
                 
                 // Set start location label.
-                UILabel *startLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, i * 100 + 20, [UIScreen mainScreen].bounds.size.width - 115, 40)];
+                UILabel *startLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, position, [UIScreen mainScreen].bounds.size.width - 115, 40)];
                 startLocationLabel.numberOfLines = 0;
                 [startLocationLabel setBackgroundColor:[UIColor whiteColor]];
                 startLocationLabel.textAlignment = NSTextAlignmentLeft;
@@ -66,7 +80,7 @@
                 [self addSubview:startLocationLabel];
                 
                 // Draw start circle.
-                UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(75, i * 100 + 32.5, 15, 15)];
+                UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(75, position + 12.5, 15, 15)];
                 circleView.layer.cornerRadius = 7.5f;
                 [circleView setBackgroundColor:[ColorManager colorFromHexString:color]];
                 [self addSubview:circleView];
@@ -77,12 +91,17 @@
                     [self sendSubviewToBack:startLocationLabel];
                     [self sendSubviewToBack:circleView];
                 }
+                
+                // Set flag.
+                if ([travelMode isEqualToString:@"setup"]) {
+                    showNextPosition = NO;
+                }
             }
             
             // Code block - End
-            {
+            if (showCurrentPosition && ![travelMode isEqualToString:@"setup"]) {
                 // Set end time label.
-                UILabel *endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, (i + 1) * 100 + 20, 50, 40)];
+                UILabel *endTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, position + deltaPosition, 50, 40)];
                 [endTimeLabel setBackgroundColor:[UIColor whiteColor]];
                 endTimeLabel.textAlignment = NSTextAlignmentCenter;
                 endTimeLabel.textColor = [UIColor blackColor];
@@ -91,7 +110,7 @@
                 [self addSubview:endTimeLabel];
                 
                 // Set end location label.
-                UILabel *endLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, (i + 1) * 100 + 20, [UIScreen mainScreen].bounds.size.width - 115, 40)];
+                UILabel *endLocationLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, position + deltaPosition, [UIScreen mainScreen].bounds.size.width - 115, 40)];
                 endLocationLabel.numberOfLines = 0;
                 [endLocationLabel setBackgroundColor:[UIColor whiteColor]];
                 endLocationLabel.textAlignment = NSTextAlignmentLeft;
@@ -106,26 +125,29 @@
                 [self addSubview:endLocationLabel];
                 
                 // Draw end circle.
-                UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(75, (i + 1) * 100 + 32.5, 15, 15)];
+                UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(75, position + deltaPosition + 12.5, 15, 15)];
                 circleView.layer.cornerRadius = 7.5f;
                 [circleView setBackgroundColor:[ColorManager colorFromHexString:color]];
                 [self addSubview:circleView];
                 
-                // Draw connection Line.
-                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(77.5, i * 100 + 40, 10, 100)];
-                [lineView setBackgroundColor:[ColorManager colorFromHexString:color]];
-                [self addSubview:lineView];
-                
+                // deal with special views.
                 if ([travelMode isEqualToString:@"walking"] || [travelMode isEqualToString:@"change"]) {
                     [self sendSubviewToBack:endTimeLabel];
                     [self sendSubviewToBack:endLocationLabel];
                     [self sendSubviewToBack:circleView];
-                    [self sendSubviewToBack:lineView];
                 }
             }
             
             // Code block - Information
             {
+                // Calculate information labels start position.
+                NSInteger infoStartPosition;
+                if (![travelMode isEqualToString:@"parking"]) {
+                    infoStartPosition = position + 50;
+                } else {
+                    infoStartPosition = position + 10;
+                }
+                
                 // Set travel mode label.
                 NSString *name = [segmentDic objectForKey:@"name"];
                 if (name != nil && ![name isKindOfClass:[NSNull class]]) {
@@ -136,7 +158,7 @@
                     travelMode = [NSString stringWithFormat:@"%@, stops:%ld", travelMode, stopNum];
                 }
                 
-                UILabel *travelModeLabel = [[UILabel alloc] initWithFrame:CGRectMake(115, i * 100 + 70, [UIScreen mainScreen].bounds.size.width - 115, 20)];
+                UILabel *travelModeLabel = [[UILabel alloc] initWithFrame:CGRectMake(115, infoStartPosition, [UIScreen mainScreen].bounds.size.width - 115, 20)];
                 [travelModeLabel setBackgroundColor:[UIColor whiteColor]];
                 travelModeLabel.textAlignment = NSTextAlignmentLeft;
                 travelModeLabel.textColor = [ColorManager colorFromHexString:color];
@@ -151,20 +173,43 @@
                 int hour = (int) duration / 60 / 60;
                 int minute = (int) duration / 60 - hour * 60;
                 
-                UILabel *durationLabel = [[UILabel alloc] initWithFrame:CGRectMake(115, i * 100 + 90, [UIScreen mainScreen].bounds.size.width - 115, 15)];
+                UILabel *durationLabel = [[UILabel alloc] initWithFrame:CGRectMake(115, infoStartPosition + 20, [UIScreen mainScreen].bounds.size.width - 115, 15)];
                 [durationLabel setBackgroundColor:[UIColor whiteColor]];
                 durationLabel.textAlignment = NSTextAlignmentLeft;
                 durationLabel.textColor = [ColorManager colorFromHexString:color];
-                durationLabel.font = [UIFont boldSystemFontOfSize:12];
+                durationLabel.font = [UIFont systemFontOfSize:12];
                 if (hour > 0) {
-                    durationLabel.text = [NSString stringWithFormat:@"Duration: %dH %dm", hour, minute];
+                    durationLabel.text = [NSString stringWithFormat:@"Duration: %dH %dmin", hour, minute];
                 } else {
-                    durationLabel.text = [NSString stringWithFormat:@"Duration: %dm", minute];
+                    durationLabel.text = [NSString stringWithFormat:@"Duration: %dmin", minute];
                 }
                 [self addSubview:durationLabel];
+                
+                // Draw connection Line.
+                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(77.5, position + 20, 10, deltaPosition)];
+                [lineView setBackgroundColor:[ColorManager colorFromHexString:color]];
+                [self addSubview:lineView];
+                
+                if ([travelMode isEqualToString:@"walking"] || [travelMode isEqualToString:@"change"]) {
+                    [self sendSubviewToBack:lineView];
+                }
             }
+            
+            // Renew flag and position.
+            if (!showCurrentPosition) {
+                showCurrentPosition = YES;
+            }
+            if (!showNextPosition) {
+                showCurrentPosition = NO;
+                showNextPosition = YES;
+            }
+            position += deltaPosition;
         }
     }
+    
+    // Return total height of content.
+    NSInteger height = position + 120;
+    return height;
 }
 
 #pragma mark - Touches

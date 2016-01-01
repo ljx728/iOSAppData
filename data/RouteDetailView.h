@@ -13,6 +13,6 @@
 
 @property (nonatomic, weak) id <BaseTouchesViewDelegate> delegate;
 
-- (void)setRouteDetailContent:(NSDictionary *)routeDic;
+- (NSInteger)setRouteDetailContent:(NSDictionary *)routeDic;
 
 @end

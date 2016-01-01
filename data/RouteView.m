@@ -48,9 +48,9 @@
 }
 
 - (void)initRouteDetailScrollView:(NSDictionary *)routeDic {
-    NSArray *segmentArray = [routeDic objectForKey:@"segments"];
-    RouteDetailView *routeDetailView = [[RouteDetailView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, ([segmentArray count] + 1) * 100 + 80)];
-    [routeDetailView setRouteDetailContent:routeDic];
+    RouteDetailView *routeDetailView = [[RouteDetailView alloc] init];
+    NSInteger height = [routeDetailView setRouteDetailContent:routeDic];
+    [routeDetailView setFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, height)];
     [_routeDetailScrollView addSubview:routeDetailView];
     [_routeDetailScrollView setContentSize:routeDetailView.frame.size];
     routeDetailView.delegate = self;
