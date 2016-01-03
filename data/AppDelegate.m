@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "ColorManager.h"
 
 @interface AppDelegate ()
 
@@ -19,7 +20,7 @@
     // Override point for customization after application launch.
     
     // Set navigation bar color.
-    [[UINavigationBar appearance] setBarTintColor:[UIColor blueColor]];
+    [[UINavigationBar appearance] setBarTintColor:[ColorManager colorFromHexString:@"#00a4f1"]];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     

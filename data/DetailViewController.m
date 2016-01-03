@@ -272,21 +272,25 @@
 }
 
 /*
- When scroll horizontally while drag the scrollView up/down, the scrollView and imageView will not decelerate to the final positions.
+ When scroll horizontally while drag the scrollView up/down, the scrollView, imageView and mapView will not decelerate to the final positions.
  Here should decelerate to the final position again.
  */
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     CGRect scrollFrame = _routeScrollView.frame;
     CGRect imageFrame = _circleImageView.frame;
+    CGRect mapFrame = _mapView.frame;
     if (scrollFrame.origin.y < self.view.frame.size.height - 300) {
         scrollFrame.origin.y = 60;
         imageFrame.origin.y = 30;
+        mapFrame.origin.y = 30 - mapFrame.size.height / 2;
     } else {
         scrollFrame.origin.y = self.view.frame.size.height - 130;
         imageFrame.origin.y = self.view.frame.size.height - 160;
+        mapFrame.origin.y = 0;
     }
     [self moveAnimationWithView:_routeScrollView finalFrame:scrollFrame];
     [self moveAnimationWithView:_circleImageView finalFrame:imageFrame];
+    [self moveAnimationWithView:_mapView finalFrame:mapFrame];
 }
 
 #pragma mark - BaseTouchesViewDelegate
@@ -318,21 +322,29 @@
         imageFrame.origin.y = self.view.frame.size.height - 160;
     }
     [_circleImageView setFrame:imageFrame];
+    
+    // Set new position for mapView.
+    _mapView.center = CGPointMake(_mapView.center.x, _routeScrollView.frame.origin.y / 2);
+    
 }
 
 - (void)theTouchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    // Detect current positions of scrollView and imageView and decelerate to the final positions.
+    // Detect current positions of scrollView, imageView and mapView and decelerate to the final positions.
     CGRect scrollFrame = _routeScrollView.frame;
     CGRect imageFrame = _circleImageView.frame;
+    CGRect mapFrame = _mapView.frame;
     if (scrollFrame.origin.y < self.view.frame.size.height - 300) {
         scrollFrame.origin.y = 60;
         imageFrame.origin.y = 30;
+        mapFrame.origin.y = 30 - mapFrame.size.height / 2;
     } else {
         scrollFrame.origin.y = self.view.frame.size.height - 130;
         imageFrame.origin.y = self.view.frame.size.height - 160;
+        mapFrame.origin.y = 0;
     }
     [self moveAnimationWithView:_routeScrollView finalFrame:scrollFrame];
     [self moveAnimationWithView:_circleImageView finalFrame:imageFrame];
+    [self moveAnimationWithView:_mapView finalFrame:mapFrame];
 }
 
 #pragma mark - Animation
